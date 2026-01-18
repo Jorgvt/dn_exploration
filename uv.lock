@@ -463,8 +463,8 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "fxlayers", git = "https://github.com/jorgvt/fxlayers" },
-    { name = "jax", marker = "sys_platform == 'darwin'", specifier = "<=0.6.2" },
-    { name = "jax", extras = ["cuda12"], marker = "sys_platform == 'linux'", specifier = "<=0.6.2" },
+    { name = "jax", marker = "sys_platform == 'darwin'" },
+    { name = "jax", extras = ["cuda12"], marker = "sys_platform == 'linux'" },
     { name = "matplotlib", specifier = ">=3.10.8" },
     { name = "paramperceptnet", git = "https://github.com/jorgvt/paramperceptnet" },
     { name = "perceptualtests", specifier = ">=0.1.4" },
