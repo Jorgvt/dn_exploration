@@ -12,13 +12,27 @@ dependencies = [
     "tqdm>=4.67.1",
     "matplotlib>=3.10.8",
     "perceptualtests>=0.1.4",
+    "datasets>=4.5.0",
+    "zarr>=2.18.3",
+    "safetensors>=0.7.0",
+    "mat73>=0.65",
+    "visturing",
+    "iqadatasets",
+    "tensorflow>=2.20.0",
+    "nbconvert>=7.17.0",
+    "jaxplayground",
+    "tensorflow-datasets>=4.9.9",
 ]
 
 [tool.uv.sources]
 fxlayers = { git = "https://github.com/jorgvt/fxlayers" }
 paramperceptnet = { git = "https://github.com/jorgvt/paramperceptnet" }
+visturing = { git = "https://github.com/Jorgvt/visturing.git" }
+iqadatasets = { git = "https://github.com/Jorgvt/iqadatasets.git" }
+jaxplayground = { git = "https://github.com/jorgvt/jaxplayground.git" }
 
 [dependency-groups]
 dev = [
     "ipykernel>=7.1.0",
+    "wandb>=0.25.0",
 ]
