@@ -18,7 +18,7 @@ dependencies = [
     "mat73>=0.65",
     "visturing",
     "iqadatasets",
-    "tensorflow>=2.20.0",
+    "tensorflow-cpu>=2.20.0",
     "nbconvert>=7.17.0",
     "jaxplayground",
     "tensorflow-datasets>=4.9.9",
