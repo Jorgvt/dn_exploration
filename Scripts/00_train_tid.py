@@ -45,15 +45,11 @@ from utils import save_state
 # config = _CONFIG.value
 print(config)
 # %%
-# dst_train = TID2008(
-#     "/lustre/ific.uv.es/ml/uv075/Databases/IQA//TID/TID2008/", exclude_imgs=[25]
-# )
+dst_train = TID2008("/lustre/ific.uv.es/ml/uv075/Databases/IQA//TID/TID2008/", exclude_imgs=[25])
 # dst_train = KADIK10K("/lustre/ific.uv.es/ml/uv075/Databases/IQA/KADIK10K/")
-# dst_val = TID2013(
-#     "/lustre/ific.uv.es/ml/uv075/Databases/IQA//TID/TID2013/", exclude_imgs=[25]
-# )
-dst_train = TID2008("/media/disk/vista/BBDD_video_image/Image_Quality//TID/TID2008/", exclude_imgs=[25])
-dst_val = TID2013("/media/disk/vista/BBDD_video_image/Image_Quality//TID/TID2013/", exclude_imgs=[25])
+dst_val = TID2013( "/lustre/ific.uv.es/ml/uv075/Databases/IQA//TID/TID2013/", exclude_imgs=[25])
+# dst_train = TID2008("/media/disk/vista/BBDD_video_image/Image_Quality//TID/TID2008/", exclude_imgs=[25])
+# dst_val = TID2013("/media/disk/vista/BBDD_video_image/Image_Quality//TID/TID2013/", exclude_imgs=[25])
 # dst_train = TID2008("/media/databases/IQA/TID/TID2008/", exclude_imgs=[25])
 # dst_val = TID2013("/media/databases/IQA/TID/TID2013/", exclude_imgs=[25])
 
@@ -71,7 +67,7 @@ wandb.init(
     name="BioInit-TrainCorr",
     job_type="training",
     config=config,
-    mode="online",
+    mode="disabled",
 )
 config = config
 config
