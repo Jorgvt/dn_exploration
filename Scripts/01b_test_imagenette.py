@@ -36,11 +36,11 @@ from paramperceptnet.constraints import *
 from paramperceptnet.training import *
 from paramperceptnet.configs import param_config as config
 
-# from model import ModelCls as PerceptNet
-from model import SimpleTest as PerceptNet
-from initialization import init_dn_gamma, init_cs, init_dn_cs, init_v1, init_dn_v1
+# from dn_exploration.model import ModelCls as PerceptNet
+from dn_exploration.model import SimpleTest as PerceptNet
+from dn_exploration.initialization import init_dn_gamma, init_cs, init_dn_cs, init_v1, init_dn_v1
 from config_imagenette import config
-from utils import save_state
+from dn_exploration.utils import save_state
 
 @struct.dataclass
 class Metrics(metrics.Collection):
