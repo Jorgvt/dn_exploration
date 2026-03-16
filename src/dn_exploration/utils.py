@@ -1,6 +1,5 @@
 import os
 from datasets import load_dataset
-from PIL import Image
 import numpy as np
 
 from perceptualtests.color_matrices import Mng2xyz, Mxyz2atd, gamma
