@@ -400,10 +400,10 @@ for epoch in range(config.EPOCHS):
         save_state(state, save_path)
         wandb.save(os.path.join(wandb.run.dir, "model-best.msgpack"))
 
-    wandb.log(
-        {f"{k}": wandb.Histogram(v) for k, v in flatten_params(state.params).items()},
-        commit=False,
-    )
+    # wandb.log(
+        # {f"{k}": wandb.Histogram(v) for k, v in flatten_params(state.params).items()},
+        # commit=False,
+    # )
     if hasattr(config, "LEARNING_RATE"):
         wandb.log(
             {
