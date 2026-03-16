@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 from safetensors.numpy import load_file
 from iqadatasets.datasets import TID2008, TID2013
 
-from initialization import init_cs, init_dn_cs, init_v1, init_dn_v1
+from .initialization import init_cs, init_dn_cs, init_v1, init_dn_v1
 
 
 from jax import lax
@@ -20,7 +20,7 @@ from typing import Union, Callable, Sequence
 from einops import rearrange, reduce
 
 from fxlayers.layers import pad_same_from_kernel_size, GDNGamma
-from utils import rgb2atd
+from .utils import rgb2atd
 
 
 from perceptualtests.color_matrices import Mng2xyz, Mxyz2atd
