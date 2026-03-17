@@ -37,7 +37,7 @@ from paramperceptnet.training import *
 from paramperceptnet.configs import param_config as config
 
 from dn_exploration.model import ModelCls as PerceptNet
-from dn_exploration.initialization import init_dn_gamma, init_cs, init_dn_cs, init_v1, init_dn_v1
+# from dn_exploration.initialization import init_dn_gamma, init_cs, init_dn_cs, init_v1, init_dn_v1
 from config_imagenette import config
 from dn_exploration.utils import save_state
 
@@ -80,7 +80,7 @@ wandb.init(
     name="BioInit-TrainCls",
     job_type="training-cls",
     config=dict(config),
-    mode="online",
+    mode="disabled",
 )
 config = wandb.config
 print(config)
@@ -119,7 +119,10 @@ pred, _ = state.apply_fn(
 )
 state = state.replace(state=_)
 
-tx = optax.adam(learning_rate=config.LEARNING_RATE)
+freeze_mask = flax.traverse_util.path_aware_map(lambda path, x: True if "perceptnet" in path else False, state.params)
+tx = optax.chain(
+    optax.adam(learning_rate=config.LEARNING_RATE), optax.transforms.freeze(freeze_mask)
+)
 
 # %%
 state = create_train_state(
@@ -129,9 +132,12 @@ state = state.replace(params=clip_layer(state.params, "GDN", a_min=0))
 
 # %%
 param_count = sum(x.size for x in jax.tree_util.tree_leaves(state.params))
-print(param_count)
+trainable_params = sum(x.size for x, mask in zip(jax.tree_util.tree_leaves(state.params), jax.tree_util.tree_leaves(freeze_mask)) if mask)
+print(f"Total params: {param_count}")
+print(f"Trainable params: {trainable_params}")
 
 wandb.run.summary["total_parameters"] = param_count
+wandb.run.summary["trainable_parameters"] = trainable_params
 
 ## Initialization
 def init_dn_gamma(params):

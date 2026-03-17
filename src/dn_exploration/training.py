@@ -1,44 +1,28 @@
 import os
-
-# os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
-import sys
-import argparse
-from absl import flags
-from absl.flags import FLAGS
-
-from typing import Any, Callable, Sequence, Union
+from functools import partial
 import numpy as np
-
 import tensorflow as tf
 
 tf.config.set_visible_devices([], device_type="GPU")
 
 import jax
-from jax import lax, random, numpy as jnp
-import flax
-from flax.core import freeze, unfreeze, FrozenDict
+from jax import random, numpy as jnp
+from flax.core import unfreeze
 from flax import linen as nn
-from flax import struct
-from flax.training import train_state
 from flax.training import orbax_utils
-
 import optax
 import orbax.checkpoint
 
-from clu import metrics
-from ml_collections import ConfigDict, config_flags
-
 import wandb
-from iqadatasets.datasets import *
-from JaxPlayground.utils.wandb import *
-from paramperceptnet.constraints import *
-from paramperceptnet.training import *
-from paramperceptnet.configs import param_config as config
+from iqadatasets.datasets import TID2008, TID2013
+from JaxPlayground.utils.wandb import flatten_params
+from paramperceptnet.constraints import clip_layer, clip_param
+from paramperceptnet.training import create_train_state, pearson_correlation, compute_metrics
 
-from model import Model as PerceptNet
-from initialization import init_dn_gamma, init_cs, init_dn_cs, init_v1, init_dn_v1
-from config import config
-from utils import save_state
+from .model import Model as PerceptNet
+from .initialization import init_dn_gamma, init_cs, init_dn_cs, init_v1, init_dn_v1
+from .config import config
+from .utils import save_state
 
 # _CONFIG = config_flags.DEFINE_config_file("config")
 # flags.FLAGS(sys.argv)
@@ -164,10 +148,6 @@ metrics_history = {
 
 # %%
 batch = next(iter(dst_train_rdy.as_numpy_iterator()))
-
-# %%
-from functools import partial
-
 
 # %%
 def forward(state, inputs):

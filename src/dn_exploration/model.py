@@ -1,29 +1,26 @@
-import os
-from typing import Any
-from tqdm.auto import tqdm
-
-import numpy as np
+from typing import Any, Union, Callable, Sequence
 import jax
-from jax import random, numpy as jnp
+from jax import random, numpy as jnp, lax
 import flax.linen as nn
-from flax.core import pop
-import matplotlib.pyplot as plt
-from safetensors.numpy import load_file
-from iqadatasets.datasets import TID2008, TID2013
-
-from initialization import init_cs, init_dn_cs, init_v1, init_dn_v1
-
-
-from jax import lax
-from fxlayers.initializers import bounded_uniform, displaced_normal
-from typing import Union, Callable, Sequence
-from einops import rearrange, reduce
-
-from fxlayers.layers import pad_same_from_kernel_size, GDNGamma
-from utils import rgb2atd
-
-
+from einops import rearrange, reduce, repeat
+from fxlayers.initializers import (
+    bounded_uniform,
+    displaced_normal,
+    freq_scales_init,
+    k_array,
+    equal_to,
+    linspace,
+)
+from fxlayers.layers import (
+    pad_same_from_kernel_size,
+    GDNGamma,
+    GaussianLayerGamma,
+    GDNGaussian,
+)
 from perceptualtests.color_matrices import Mng2xyz, Mxyz2atd
+
+from .initialization import init_cs, init_dn_cs, init_v1, init_dn_v1
+from .utils import rgb2atd
 
 class CenterSurroundLogSigmaK(nn.Module):
     """Parametric center surround layer that optimizes log(sigma) instead of sigma and has a factor K instead of a second sigma."""
@@ -131,10 +128,6 @@ class CenterSurroundLogSigmaK(nn.Module):
         return jnp.meshgrid(jnp.linspace(0,self.kernel_size/self.fs,num=self.kernel_size), jnp.linspace(0,self.kernel_size/self.fs,num=self.kernel_size))
 
 
-from typing import Sequence, Union
-from fxlayers.layers import GaussianLayerGamma, GDNGaussian
-from jax import lax
-
 class DN(nn.Module):
     """---"""
 
@@ -186,9 +179,6 @@ class DN(nn.Module):
             lh = jnp.mean(lh)
         return sign*(K.value/lh)*rh
 
-
-from fxlayers.initializers import freq_scales_init, k_array, equal_to, linspace
-from einops import repeat
 
 class GaborLayerGammaHumanLike_(nn.Module):
     """Parametric Gabor layer with particular initialization."""

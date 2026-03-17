@@ -25,6 +25,13 @@ dependencies = [
     "jax[cuda12]>=0.6.2",
 ]
 
+[tool.hatch.build.targets.wheel]
+packages = ["src/dn_exploration"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [tool.uv.sources]
 fxlayers = { git = "https://github.com/jorgvt/fxlayers" }
 paramperceptnet = { git = "https://github.com/jorgvt/paramperceptnet" }
