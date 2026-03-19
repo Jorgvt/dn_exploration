@@ -9,18 +9,19 @@ from absl.flags import FLAGS
 from typing import Any, Callable, Sequence, Union
 import numpy as np
 
-import tensorflow as tf
-
-tf.config.set_visible_devices([], device_type="GPU")
 
 import jax
 from jax import lax, random, numpy as jnp
+print(jax.devices())
 import flax
 from flax.core import freeze, unfreeze, FrozenDict
 from flax import linen as nn
 from flax import struct
 from flax.training import train_state
 from flax.training import orbax_utils
+
+import tensorflow as tf
+tf.config.set_visible_devices([], device_type="GPU")
 
 import optax
 import orbax.checkpoint
@@ -45,11 +46,11 @@ from dn_exploration.utils import save_state
 # config = _CONFIG.value
 print(config)
 # %%
-dst_train = TID2008("/lustre/ific.uv.es/ml/uv075/Databases/IQA//TID/TID2008/", exclude_imgs=[25])
+# dst_train = TID2008("/lustre/ific.uv.es/ml/uv075/Databases/IQA//TID/TID2008/", exclude_imgs=[25])
 # dst_train = KADIK10K("/lustre/ific.uv.es/ml/uv075/Databases/IQA/KADIK10K/")
-dst_val = TID2013( "/lustre/ific.uv.es/ml/uv075/Databases/IQA//TID/TID2013/", exclude_imgs=[25])
-# dst_train = TID2008("/media/disk/vista/BBDD_video_image/Image_Quality//TID/TID2008/", exclude_imgs=[25])
-# dst_val = TID2013("/media/disk/vista/BBDD_video_image/Image_Quality//TID/TID2013/", exclude_imgs=[25])
+# dst_val = TID2013( "/lustre/ific.uv.es/ml/uv075/Databases/IQA//TID/TID2013/", exclude_imgs=[25])
+dst_train = TID2008("/media/disk/vista/BBDD_video_image/Image_Quality//TID/TID2008/", exclude_imgs=[25])
+dst_val = TID2013("/media/disk/vista/BBDD_video_image/Image_Quality//TID/TID2013/", exclude_imgs=[25])
 # dst_train = TID2008("/media/databases/IQA/TID/TID2008/", exclude_imgs=[25])
 # dst_val = TID2013("/media/databases/IQA/TID/TID2013/", exclude_imgs=[25])
 
@@ -67,7 +68,7 @@ wandb.init(
     name="BioInit-TrainCorr",
     job_type="training",
     config=config,
-    mode="disabled",
+    mode="online",
 )
 config = config
 config

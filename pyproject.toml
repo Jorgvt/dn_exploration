@@ -22,6 +22,7 @@ dependencies = [
     "nbconvert>=7.17.0",
     "jaxplayground",
     "tensorflow-datasets>=4.9.9",
+    "jax[cuda12]>=0.6.2",
 ]
 
 [tool.hatch.build.targets.wheel]
